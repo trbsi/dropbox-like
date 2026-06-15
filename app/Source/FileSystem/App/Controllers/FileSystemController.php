@@ -4,8 +4,10 @@ namespace App\Source\FileSystem\App\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Source\FileSystem\App\Requests\StoreNodeRequest;
+use App\Source\FileSystem\App\Response\AncestorResource;
 use App\Source\FileSystem\App\Response\NodeResource;
 use App\Source\FileSystem\Domain\Enum\FileSystemEnum;
+use App\Source\FileSystem\Domain\Service\Ancestors\AncestorsService;
 use App\Source\FileSystem\Domain\Service\Delete\DeleteNodeService;
 use App\Source\FileSystem\Domain\Service\FetchNode\FetchNodeService;
 use App\Source\FileSystem\Domain\Service\Search\SearchNodesService;
@@ -58,15 +60,9 @@ class FileSystemController extends Controller
         return response()->json(NodeResource::collection($nodes->getNodes()));
     }
 
-    public function ancestors(): JsonResponse
+    public function ancestors(int $id, AncestorsService $service): JsonResponse
     {
-        return response()->json(
-            json_decode(
-                '  [
-    { "id": 1, "name": "Documents" },
-    { "id": 4, "name": "Work" }
-  ]'
-            )
-        );
+        $ancestors = $service->get($id);
+        return response()->json(AncestorResource::collection($ancestors->getAncestors()));
     }
 }

@@ -16,8 +16,4 @@ class NodeDto
     ) {
     }
 
-    public function isFolder(): bool
-    {
-        return $this->type === FileSystemEnum::Folder;
-    }
 }

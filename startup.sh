@@ -7,6 +7,9 @@ cd "$(dirname "$0")"
 SERVICE="${SERVICE:-laravelx_app}"
 SKIP_UP="${SKIP_UP:-0}"
 
+echo "Copying env file..."
+cp .env.example .env
+
 if [[ "$SKIP_UP" != "1" ]]; then
   echo "Starting Docker services..."
   docker compose up -d --build

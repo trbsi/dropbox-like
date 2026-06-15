@@ -16,6 +16,6 @@ class FetchNodeService
     public function fetch(?int $parentId): NodesDto
     {
         // any business logic goes here
-        return $this->fetchNode->fetch(new FetchQuery(parentId: $parentId));
+        return $this->fetchNode->fetch(new FetchQuery($parentId));
     }
 }
