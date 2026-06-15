@@ -30,7 +30,11 @@ class FetchNodeRepository implements FetchNodeInterface
 
     public function search(SearchQuery $searchQuery): NodesDto
     {
-        $query = FileSystem::query()
+        $query = FileSystem::query();
+        if ($searchQuery->parentId) {
+            $query->where('parent_id', $searchQuery->parentId);
+        }
+        $query
             ->where('type', FileSystemEnum::File->value)
             ->where('name', 'LIKE', $searchQuery->name . '%')
             ->orderBy('name', 'asc')
@@ -62,10 +66,13 @@ class FetchNodeRepository implements FetchNodeInterface
             /** @var FileSystem $ancestor */
             $ancestor = $folders->get($parentId);
 
-            array_unshift($ancestors, new AncestorDto(
-                id: (string) $ancestor->getId(),
-                name: $ancestor->getName(),
-            ));
+            array_unshift(
+                $ancestors,
+                new AncestorDto(
+                    id: (string)$ancestor->getId(),
+                    name: $ancestor->getName(),
+                )
+            );
 
             $parentId = $ancestor->getParentId();
         }

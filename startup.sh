@@ -29,6 +29,9 @@ docker exec -it "$SERVICE" npm install
 echo "Building production assets..."
 docker exec -it "$SERVICE" npm run build
 
+echo "Generating key..."
+docker exec -it "$SERVICE" php artisan key:generate
+
 echo "Running database migrations..."
 docker exec -it "$SERVICE" php artisan migrate --force
 

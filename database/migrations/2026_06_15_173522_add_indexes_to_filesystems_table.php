@@ -11,12 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('filesystems', function (Blueprint $table) {
-            //  covers the folder listing query entirely
-            //  already sorted folders-first, then alphabetically. No filesort needed.
+            // covers the folder listing query entirely
+            // already sorted folders-first, then alphabetically
             $table->index(['parent_id', 'type', 'name']);
 
             // covers the search query (WHERE type = 'file' AND name LIKE 'prefix%' LIMIT 10).
-            //  Prefix LIKE with a trailing % uses a B-tree range scan
+            // Prefix LIKE with a trailing % uses a B-tree range scan
             $table->index(['type', 'name']);
         });
     }
