@@ -16,7 +16,7 @@ class StoreNodeRequest extends FormRequest
             'parent_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('file_systems', 'id')->where('type', FileSystemEnum::Folder->value),
+                Rule::exists('filesystems', 'id')->where('type', FileSystemEnum::Folder->value),
             ],
             'name' => [
                 'required',

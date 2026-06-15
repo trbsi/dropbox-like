@@ -6,7 +6,7 @@ class NodesDto
 {
     private array $nodes;
 
-    public function __construct(NodesDto ...$nodes)
+    public function __construct(NodeDto ...$nodes)
     {
         $this->nodes = $nodes;
     }

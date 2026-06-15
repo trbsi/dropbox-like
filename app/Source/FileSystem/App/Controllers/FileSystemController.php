@@ -12,19 +12,20 @@ use App\Source\FileSystem\Domain\Service\Search\SearchNodesService;
 use App\Source\FileSystem\Domain\Service\Store\StoreNodeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileSystemController extends Controller
 {
-    public function nodes(Request $request, FetchNodeService $service): JsonResource
+    public function nodes(Request $request, FetchNodeService $service): JsonResponse
     {
         $nodes = $service->fetch($request->integer('parent_id') ?: null);
 
-        return NodeResource::collection($nodes);
+        return response()->json(
+            NodeResource::collection($nodes->getNodes()),
+        );
     }
 
-    public function store(StoreNodeRequest $request, StoreNodeService $service): JsonResource
+    public function store(StoreNodeRequest $request, StoreNodeService $service): JsonResponse
     {
         $node = $service->store(
             parentId: $request->integer('parent_id') ?: null,
@@ -32,7 +33,7 @@ class FileSystemController extends Controller
             type: FileSystemEnum::from($request->string('type')->toString()),
         );
 
-        return NodeResource::make($node)->response()->setStatusCode(201);
+        return response()->json(NodeResource::make($node), 201);
     }
 
     public function destroy(int $id, DeleteNodeService $service): JsonResponse
@@ -47,13 +48,25 @@ class FileSystemController extends Controller
         }
     }
 
-    public function search(Request $request, SearchNodesService $service): JsonResource
+    public function search(Request $request, SearchNodesService $service): JsonResponse
     {
         $nodes = $service->search(
             $request->string('q'),
             $request->integer('parent_id') ?: null
         );
 
-        return NodeResource::collection($nodes);
+        return response()->json(NodeResource::collection($nodes->getNodes()));
+    }
+
+    public function ancestors(): JsonResponse
+    {
+        return response()->json(
+            json_decode(
+                '  [
+    { "id": 1, "name": "Documents" },
+    { "id": 4, "name": "Work" }
+  ]'
+            )
+        );
     }
 }

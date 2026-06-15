@@ -3,7 +3,7 @@
 namespace App\Source\FileSystem\Domain\Dto;
 
 use App\Source\FileSystem\Domain\Enum\FileSystemEnum;
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class NodeDto
 {
@@ -12,7 +12,7 @@ class NodeDto
         public readonly ?int $parentId,
         public readonly string $name,
         public readonly FileSystemEnum $type,
-        public readonly Carbon $createdAt,
+        public readonly CarbonImmutable $createdAt,
     ) {
     }
 

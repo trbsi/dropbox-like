@@ -21,11 +21,7 @@ class FetchNodeRepository implements FetchNodeInterface
     public function fetch(FetchQuery $fetchQuery): NodesDto
     {
         $query = FileSystem::query();
-        if ($fetchQuery->parentId) {
-            $query->where('parent_id', $fetchQuery->parentId);
-        }
-
-        $query
+        $query->where('parent_id', $fetchQuery->parentId)
             ->orderByRaw('type = ?', [FileSystemEnum::Folder->value])
             ->orderBy('name', 'asc');
 
@@ -36,7 +32,7 @@ class FetchNodeRepository implements FetchNodeInterface
     {
         $query = FileSystem::query()
             ->where('name', 'LIKE', $searchQuery->name . '%')
-            ->orderByRaw('name', 'asc')
+            ->orderBy('name', 'asc')
             ->limit(10);
 
         return $this->domainMapper->mapCollectionToDomain($query->get());

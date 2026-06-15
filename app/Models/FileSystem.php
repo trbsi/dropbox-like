@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Source\FileSystem\Domain\Enum\FileSystemEnum;
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 
 class FileSystem extends Model
 {
+    protected $table = 'filesystems';
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -20,7 +21,7 @@ class FileSystem extends Model
     }
 
 
-    public function getParentId(): int
+    public function getParentId(): ?int
     {
         return $this->parent_id;
     }
@@ -53,8 +54,8 @@ class FileSystem extends Model
         return $this;
     }
 
-    public function getCreatedAt(): Carbon
+    public function getCreatedAt(): CarbonImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 }

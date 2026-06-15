@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Source\FileSystem\Domain\Interface\DeleteNodeInterface;
 use App\Source\FileSystem\Domain\Interface\FetchNodeInterface;
+use App\Source\FileSystem\Domain\Interface\StoreNodeInterface;
 use App\Source\FileSystem\Infrastructure\Repository\DeleteNode\DeleteNodeRepository;
 use App\Source\FileSystem\Infrastructure\Repository\FetchNode\FetchNodeRepository;
+use App\Source\FileSystem\Infrastructure\Repository\StoreNode\StoreNodeRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(FetchNodeInterface::class, FetchNodeRepository::class);
         $this->app->bind(DeleteNodeInterface::class, DeleteNodeRepository::class);
+        $this->app->bind(StoreNodeInterface::class, StoreNodeRepository::class);
     }
 
     /**

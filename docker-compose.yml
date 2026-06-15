@@ -3,12 +3,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        WWWUSER: ${WWWUSER:-1000}
+        WWWGROUP: ${WWWGROUP:-1000}
     container_name: laravelx_app
     restart: unless-stopped
     working_dir: /var/www
     volumes:
       - .:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    ports:
+      - "5173:5173"
     networks:
       - laravelx
     depends_on:
