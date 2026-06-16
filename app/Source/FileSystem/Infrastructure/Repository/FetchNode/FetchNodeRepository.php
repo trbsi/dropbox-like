@@ -22,7 +22,7 @@ class FetchNodeRepository implements FetchNodeInterface
     {
         $query = FileSystem::query();
         $query->where('parent_id', $fetchQuery->parentId)
-            ->orderByRaw('type = ?', [FileSystemEnum::Folder->value])
+            ->orderByRaw('(type = ?) DESC', [FileSystemEnum::Folder->value])
             ->orderBy('name', 'asc');
 
         return $this->domainMapper->mapCollectionToDomain($query->get());

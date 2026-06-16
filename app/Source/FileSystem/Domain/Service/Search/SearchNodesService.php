@@ -15,7 +15,10 @@ class SearchNodesService
 
     public function search(string $name, ?int $parentId): NodesDto
     {
-        // any business logic goes here
+        if ($name === '') {
+            return new NodesDto();
+        }
+
         return $this->fetchNode->search(
             new SearchQuery(name: $name, parentId: $parentId)
         );
